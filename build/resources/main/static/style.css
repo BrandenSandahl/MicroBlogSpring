@@ -1,0 +1,85 @@
+body {
+    background-color: green;
+}
+
+.exclaim {
+    color: #01DF01;
+      animation-name: blinkExclaim ;
+               animation-duration: .2s ;
+               animation-timing-function: step-end ;
+               animation-iteration-count: infinite ;
+               animation-direction: alternate ;
+}
+
+#userName {
+   color: yellow;
+
+       animation-name: blinkUserName ;
+           animation-duration: .8s ;
+           animation-timing-function: step-end ;
+           animation-iteration-count: infinite ;
+           animation-direction: alternate ;
+}
+
+#wrapper {
+    background-color: red;
+    width: 80%;
+    height: 80%;
+    margin: auto;
+    padding: 25px;
+    border: 5px dashed purple;
+    display: block;
+
+    animation-name: blinkWrapper ;
+        animation-duration: .5s ;
+        animation-timing-function: step-end ;
+        animation-iteration-count: infinite ;
+        animation-direction: alternate ;
+
+}
+
+@keyframes blinkWrapper {
+   50% { border-color: blue; }
+}
+@keyframes blinkUserName {
+   50% {color: #2ECCFA;}
+}
+@keyframes blinkExclaim {
+   50% {color: black;}
+}
+
+
+button:hover {
+visibility: hidden;
+}
+
+
+input[type=text] {
+  width: 50px;
+  -webkit-transition: width .35s ease-in-out;
+  transition: width .35s ease-in-out;
+}
+input[type=text]:focus {
+  width: 3px;
+}
+
+
+<!-- Codes by HTML.am -->
+
+<!-- CSS Code -->
+<style type="text/css" scoped>
+.GeneratedMarquee {
+font-family:Papyrus;
+font-size:1em;
+font-style:italic;
+font-weight:bold;
+font-variant:small-caps;
+line-height:.2em;
+padding:em;
+
+}
+</style>
+
+
+
+

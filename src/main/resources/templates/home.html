@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link type="text/css" rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <title>Micro Blog Home</title>
+</head>
+<body>
+<div id="wrapper">
+
+{{^userName}}
+<form action="/login" method="post">
+    <input type="text" placeholder="User Name" name="userName">
+    <button type="submit">Log in</button>
+</form>
+{{/userName}}
+
+
+{{#userName}}
+<h1><span id="userName">{{.}}</span><span class="exclaim">!</span> Hello<span class="exclaim">!!</span></h1>
+<form action="/createMessage" method="post">
+    <input type="text" placeholder="Enter Message" name="messageText">
+    <button type="submit">Add Message</button>
+</form>
+
+{{/userName}}
+<p>
+Lets look at some messages<span class="exclaim">!</span>
+    YAY messages<span class="exclaim">!</span>
+    <ol>
+    {{#messageList}}
+    <marquee class="GeneratedMarquee" direction="down" scrollamount="125" behavior="alternate"> <li><form action="/deleteMessage" method="post">{{text}}<input type="text" name="messageId" value="{{id}}" hidden><button type="submit">Delete</button> </form></li></marquee>
+    {{/messageList}}
+    </ol>
+
+
+</p>
+
+
+<form action="/logout" method="post">
+    <button type="submit">Logout</button>
+</form>
+
+    </div>
+
+</body>
+</html>
