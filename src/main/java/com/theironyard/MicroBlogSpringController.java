@@ -20,8 +20,33 @@ public class MicroBlogSpringController {
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
     public String home(Model model, HttpSession session) {
-        model.addAttribute("userName", session.getAttribute("userName"));
-        model.addAttribute("messageList", messageList);
+
+        String userName = null;
+        if (!session.isNew()) {
+
+            userName = session.getAttribute("userName").toString();
+        }
+
+         ArrayList<Message> userMessagesList = new ArrayList<Message>();
+
+        //wont let me use lambdas.
+//        messageList.forEach(message -> {
+//            if (message.getUserName().equals(userName)){
+//                userMessagesList.add(message);
+//            }
+//        });
+
+        if (!messageList.isEmpty()) {
+            for (Message m : messageList) {
+                if (m.getUserName().equals(userName)) {userMessagesList.add(m);}
+            }
+        }
+
+        model.addAttribute("userName", userName);
+        model.addAttribute("messageList", userMessagesList);
+
+
+
         return "home";
     }
 
@@ -33,8 +58,9 @@ public class MicroBlogSpringController {
     }
 
     @RequestMapping(path = "/createMessage", method = RequestMethod.POST)
-    public String createMessage(String messageText) {
-        Message m = new Message(messageList.size() + 1 , messageText);
+    public String createMessage(HttpSession session, String messageText) {
+        String userName = session.getAttribute("userName").toString();
+        Message m = new Message(messageList.size() + 1 , messageText, userName);
         messageList.add(m);
         return "redirect:/";
     }
