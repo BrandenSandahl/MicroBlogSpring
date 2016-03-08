@@ -20,32 +20,19 @@ public class MicroBlogSpringController {
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
     public String home(Model model, HttpSession session) {
-
         String userName = null;
-        if (!session.isNew()) {
-
+        if (!session.isNew()) { //really strange behavior here. Why do i have to do this?
             userName = session.getAttribute("userName").toString();
         }
-
          ArrayList<Message> userMessagesList = new ArrayList<Message>();
-
-        //wont let me use lambdas.
-//        messageList.forEach(message -> {
-//            if (message.getUserName().equals(userName)){
-//                userMessagesList.add(message);
-//            }
-//        });
 
         if (!messageList.isEmpty()) {
             for (Message m : messageList) {
-                if (m.getUserName().equals(userName)) {userMessagesList.add(m);}
+                if (m.getUserName().equals(userName)) userMessagesList.add(m);
             }
         }
-
         model.addAttribute("userName", userName);
         model.addAttribute("messageList", userMessagesList);
-
-
 
         return "home";
     }
@@ -72,9 +59,9 @@ public class MicroBlogSpringController {
     }
 
     @RequestMapping(path = "/deleteMessage", method = RequestMethod.POST)
-        public String deleteMessage(int messageId) {
-        messageList.remove(messageId - 1);
-        return "redirect:/";
+    public String deleteMessage(int messageId) {
+         messageList.remove(messageId - 1);
+         return "redirect:/";
     }
 
 
