@@ -1,20 +1,35 @@
 package com.theironyard;
 
+import javax.persistence.*;
+import java.util.List;
+
 /**
  * Created by branden on 3/7/16 at 13:22.
  */
+@Entity
 public class Message {
 
+    @Id
+    @GeneratedValue
+    @Column(name = "id")
     private int id;
-    private String text, userName;
+
+    @Column(name = "text")
+    private String text;
+
+    @ManyToOne
+    @JoinColumn(name = "user_fk", insertable = false, updatable = false)
+    private User user;
 
 
-    public Message(int id, String text, String userName) {
-        this.id = id;
+
+    public Message(String text) {
         this.text = text;
-        this.userName = userName;
     }
 
+
+    public Message() {
+    }
 
     public int getId() {
         return id;
@@ -32,11 +47,11 @@ public class Message {
         this.text = text;
     }
 
-    public String getUserName() {
-        return userName;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

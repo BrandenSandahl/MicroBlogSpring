@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link type="text/css" rel="stylesheet" href="style.css" />
+   <!-- <link type="text/css" rel="stylesheet" href="style.css" /> -->
     <meta charset="UTF-8">
     <title>Micro Blog Home</title>
 </head>
@@ -29,7 +29,7 @@ Lets look at some messages<span class="exclaim">!</span>
     YAY messages<span class="exclaim">!</span>
     <ol>
     {{#messageList}}
-    <marquee class="GeneratedMarquee" direction="down" scrollamount="125" behavior="alternate"> <li><form action="/deleteMessage" method="post">{{text}}<input type="text" name="messageId" value="{{id}}" hidden><button type="submit">Delete</button> </form></li></marquee>
+    <li><form  style="display:inline-block;" action="/editMessage" method="post"><input type="text" name="editMessage" value="{{text}}"/><input type="hidden" name="messageId" value="{{id}}"><button type="submit">Edit</button></form> <form style="display:inline-block;"  action="/deleteMessage" method="post"><input type="hidden" name="messageId" value="{{id}}"><button type="submit">Delete</button> </form></li>
     {{/messageList}}
     </ol>
 

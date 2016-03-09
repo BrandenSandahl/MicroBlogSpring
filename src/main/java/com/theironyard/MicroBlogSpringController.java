@@ -1,12 +1,13 @@
 package com.theironyard;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
+
 
 /**
  * Created by branden on 3/7/16 at 12:56.
@@ -14,7 +15,11 @@ import java.util.ArrayList;
 @Controller
 public class MicroBlogSpringController {
 
-    ArrayList<Message> messageList = new ArrayList<Message>();
+    @Autowired
+    MessageRepository messageRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
 
 
@@ -24,15 +29,9 @@ public class MicroBlogSpringController {
         if (!session.isNew()) { //really strange behavior here. Why do i have to do this?
             userName = session.getAttribute("userName").toString();
         }
-         ArrayList<Message> userMessagesList = new ArrayList<Message>();
 
-        if (!messageList.isEmpty()) {
-            for (Message m : messageList) {
-                if (m.getUserName().equals(userName)) userMessagesList.add(m);
-            }
-        }
         model.addAttribute("userName", userName);
-        model.addAttribute("messageList", userMessagesList);
+        model.addAttribute("messageList", messageRepository.findAll());
 
         return "home";
     }
@@ -41,14 +40,15 @@ public class MicroBlogSpringController {
     @RequestMapping(path = "/login", method = RequestMethod.POST)
     public String login(HttpSession session, String userName) {
         session.setAttribute("userName", userName);
+        userRepository.save(new User(userName));
         return "redirect:/";
     }
 
     @RequestMapping(path = "/createMessage", method = RequestMethod.POST)
     public String createMessage(HttpSession session, String messageText) {
         String userName = session.getAttribute("userName").toString();
-        Message m = new Message(messageList.size() + 1 , messageText, userName);
-        messageList.add(m);
+        Message m = new Message(messageText);
+        messageRepository.save(m);
         return "redirect:/";
     }
 
@@ -58,9 +58,17 @@ public class MicroBlogSpringController {
         return "redirect:/";
     }
 
+    @RequestMapping(path = "/editMessage", method = RequestMethod.POST)
+    public String editMessage(int messageId, String editMessage) {
+        Message m = messageRepository.findOne(messageId);
+        m.setText(editMessage);
+        messageRepository.save(m);
+        return "redirect:/";
+    }
     @RequestMapping(path = "/deleteMessage", method = RequestMethod.POST)
     public String deleteMessage(int messageId) {
-         messageList.remove(messageId - 1);
+        messageRepository.delete(messageId);
+
          return "redirect:/";
     }
 
